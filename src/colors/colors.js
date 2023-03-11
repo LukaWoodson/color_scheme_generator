@@ -1,22 +1,79 @@
 import React, { useRef, useState } from "react";
 import tinycolor from "tinycolor2";
-import { TextBox, Wrapper } from "./styles";
+import {
+  CardWrapper,
+  ColorCard,
+  ShadesWrapper,
+  TextBox,
+  Wrapper,
+} from "./styles";
 
 function ColorsComponent() {
   const inputColorRef = useRef(null);
-  const [inputColor, setInputColor] = useState("");
-  const [hexColor, setHexColor] = useState("");
+  const [colors, setColors] = useState({
+    inputColor: "",
+    textColor: "",
+    shades: {
+      100: "",
+      200: "",
+      300: "",
+      400: "",
+      500: "",
+      600: "",
+    },
+    tints: {
+      100: "",
+      200: "",
+      300: "",
+      400: "",
+      500: "",
+      600: "",
+    },
+    triad: {
+      100: "",
+      200: "",
+      300: "",
+    },
+    tetrad: {
+      100: "",
+      200: "",
+      300: "",
+      400: "",
+    },
+    monochromatic: {
+      100: "",
+      200: "",
+      300: "",
+      400: "",
+      500: "",
+      600: "",
+    },
+    analogous: {
+      100: "",
+      200: "",
+      300: "",
+      400: "",
+      500: "",
+      600: "",
+    },
+    splitComp: {
+      100: "",
+      200: "",
+      300: "",
+    },
+  });
 
   const handleColorChange = () => {
-    console.log(tinycolor(inputColorRef.current.value));
-    setHexColor(
-      tinycolor(inputColorRef.current.value.toString())?.isDark()
+    // NOTE: update colors from input here
+    setColors({
+      ...colors,
+      inputColor: "#" + tinycolor(inputColorRef.current.value).toHex(),
+      textColor: tinycolor(inputColorRef.current.value.toString())?.isDark()
         ? "#ffffff"
-        : "#000000"
-    );
-    console.log({ hexColor });
-    setInputColor("#" + tinycolor(inputColorRef.current.value).toHex());
-    inputColorRef.current.value = inputColor;
+        : "#000000",
+      // NOTE: write methods to loop through populating the other objects
+    });
+    inputColorRef.current.value = colors.inputColor;
   };
 
   return (
@@ -29,14 +86,41 @@ function ColorsComponent() {
         {`Original Color: `}
         <span
           style={{
-            background: inputColor,
-            color: hexColor,
+            background: colors.inputColor,
+            color: colors.textColor,
           }}
-          onChange={() => console.log(hexColor)}
+          onChange={() => console.log(colors.textColor)}
         >
-          {inputColor}
+          {colors.inputColor}
         </span>
       </h1>
+      <h2>Shades:</h2>
+      <ShadesWrapper>
+        <CardWrapper>
+          <ColorCard>{"#ffffff"}</ColorCard>
+          <span>Shade 100</span>
+        </CardWrapper>
+        <CardWrapper>
+          <ColorCard>{"#ffffff"}</ColorCard>
+          <span>Shade 200</span>
+        </CardWrapper>
+        <CardWrapper>
+          <ColorCard>{"#ffffff"}</ColorCard>
+          <span>Shade 300</span>
+        </CardWrapper>
+        <CardWrapper>
+          <ColorCard>{"#ffffff"}</ColorCard>
+          <span>Shade 400</span>
+        </CardWrapper>
+        <CardWrapper>
+          <ColorCard>{"#ffffff"}</ColorCard>
+          <span>Shade 500</span>
+        </CardWrapper>
+        <CardWrapper>
+          <ColorCard>{"#ffffff"}</ColorCard>
+          <span>Shade 600</span>
+        </CardWrapper>
+      </ShadesWrapper>
     </Wrapper>
   );
 }
