@@ -87,7 +87,7 @@ export const ColorCard = styled.div`
 `;
 
 export const Notification = styled.div`
-  position: relative;
+  position: fixed;
   top: 25rem;
   padding: 10px;
   border-radius: 5px;
