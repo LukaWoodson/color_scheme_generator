@@ -45,7 +45,7 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 20vw;
+  width: 9rem;
   aspect-ratio: 1;
 
   span {
@@ -61,4 +61,5 @@ export const ColorCard = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
 `;
