@@ -134,8 +134,12 @@ import tinycolor from "tinycolor2";
 import {
   CardWrapper,
   ColorCard,
-  ShadesWrapper,
+  ColorInput,
+  GetValuesButton,
+  SectionTitle,
+  SectionWrapper,
   TextBox,
+  Title,
   Wrapper,
 } from "./styles";
 
@@ -202,12 +206,12 @@ function ColorsComponent() {
     const newShades = {};
 
     // populate shades object with darker shades of input color
-    let s = 0;
+    let s = 5;
     for (let i = 1; i <= 6; i++) {
       newShades[parseInt(`${i}00`)] = tinycolor(newInputColor)
         .darken(s)
         .toHexString();
-      s += 6;
+      s += 5;
     }
 
     setColors({
@@ -221,23 +225,28 @@ function ColorsComponent() {
 
   return (
     <Wrapper>
+      <Title>Theme Palette Generator</Title>
       <TextBox>
-        <input placeholder={"Enter a hex value"} ref={inputColorRef} />
+        <ColorInput placeholder={"Enter a hex value"} ref={inputColorRef} />
+        <GetValuesButton onClick={handleColorChange}>
+          Get Values
+        </GetValuesButton>
       </TextBox>
-      <button onClick={handleColorChange}>Get Values</button>
-      <h1>
-        {`Original Color: `}
-        <span
-          style={{
-            background: colors.inputColor,
-            color: colors.textColor,
-          }}
-        >
-          {colors.inputColor}
-        </span>
-      </h1>
-      <h2>Shades:</h2>
-      <ShadesWrapper>
+      <SectionTitle>{`Original Color: `}</SectionTitle>
+      <SectionWrapper>
+        <CardWrapper>
+          <ColorCard
+            style={{
+              backgroundColor: colors.inputColor,
+              color: colors.textColor,
+            }}
+          >
+            {colors.inputColor}
+          </ColorCard>
+        </CardWrapper>
+      </SectionWrapper>
+      <SectionTitle>Shades:</SectionTitle>
+      <SectionWrapper>
         {Object.keys(colors.shades).map((key) => (
           <CardWrapper key={key}>
             <ColorCard
@@ -251,11 +260,11 @@ function ColorsComponent() {
             <span>{`Shade ${key}`}</span>
           </CardWrapper>
         ))}
-      </ShadesWrapper>
-      <h2>Tints:</h2>
-      <ShadesWrapper>
+      </SectionWrapper>
+      <SectionTitle>Tints:</SectionTitle>
+      <SectionWrapper>
         {/* TODO: Populate tints object and render cards */}
-      </ShadesWrapper>
+      </SectionWrapper>
       {/* TODO: Render other color palettes */}
     </Wrapper>
   );

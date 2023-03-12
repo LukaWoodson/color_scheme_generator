@@ -9,11 +9,31 @@ export const Wrapper = styled.div`
   margin: 2rem;
 `;
 
+export const Title = styled.h1`
+  font-size: 44px;
+  font-weight: 600;
+`;
+
 export const TextBox = styled.div`
   margin: 1rem;
 `;
 
-export const ShadesWrapper = styled.div`
+export const ColorInput = styled.input`
+  font-size: medium;
+  padding: 0.5rem;
+`;
+
+export const GetValuesButton = styled.button`
+  margin: 1rem;
+  padding: 0.5rem;
+  font-size: medium;
+`;
+
+export const SectionTitle = styled.h2`
+  margin: 1rem;
+`;
+
+export const SectionWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
