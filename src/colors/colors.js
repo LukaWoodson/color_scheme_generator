@@ -278,7 +278,7 @@ function ColorsComponent() {
 
   return (
     <Wrapper>
-      <Title>Theme Palette Generator</Title>
+      <Title>Color Scheme Generator</Title>
       <TextBox>
         <ColorInput placeholder={"Enter a hex value"} ref={inputColorRef} />
         <GetValuesButton onClick={handleColorChange}>
