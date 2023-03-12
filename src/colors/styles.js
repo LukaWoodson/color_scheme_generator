@@ -12,10 +12,14 @@ export const Wrapper = styled.div`
 export const Title = styled.h1`
   font-size: 44px;
   font-weight: 600;
+  position: absolute;
+  top: 2rem;
 `;
 
 export const TextBox = styled.div`
   margin: 1rem;
+  position: absolute;
+  top: 5rem;
 `;
 
 export const ColorInput = styled.input`
@@ -29,8 +33,21 @@ export const GetValuesButton = styled.button`
   font-size: medium;
 `;
 
-export const SectionTitle = styled.h2`
+export const Content = styled.div`
+  position: absolute;
+  top: 12rem;
+  background: lightgray;
+  border-radius: 1rem;
   margin: 1rem;
+  box-shadow: 0px 0px 6px 0px rgb(0 0 0);
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+`;
+
+export const SectionTitle = styled.h2`
+  padding: 1rem;
+  background: cadetblue;
+  border-radius: 1rem 1rem 0rem 0rem;
+  box-shadow: 0px 1px 2px 0 rgb(0 0 0);
 `;
 
 export const SectionWrapper = styled.div`
@@ -55,11 +72,13 @@ export const CardWrapper = styled.div`
 `;
 
 export const ColorCard = styled.div`
-  outline: 1px solid red;
   width: 10vw;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0px 2px 4px 0 rgb(0 0 0);
 `;
