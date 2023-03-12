@@ -54,7 +54,8 @@ export const SectionWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 60vw;
+  width: 60rem;
+  padding: 1rem;
 `;
 
 export const CardWrapper = styled.div`
@@ -81,4 +82,20 @@ export const ColorCard = styled.div`
   border-radius: 1rem;
   padding: 0.5rem;
   box-shadow: 0px 2px 4px 0 rgb(0 0 0);
+  cursor: pointer;
+`;
+
+export const Notification = styled.div`
+  position: relative;
+  top: 25rem;
+  padding: 10px;
+  border-radius: 5px;
+  display: ${({ show }) => show ? "block" : "none"};
+  cursor: context-menu;
+  opacity: 0.9;
+  width: 15rem;
+  height: 2rem;
+  line-height: 2;
+  background: ${({ notifColor }) => notifColor};
+  font-weight: 600;
 `;

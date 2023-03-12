@@ -1,134 +1,3 @@
-// import React, { useRef, useState } from "react";
-// import tinycolor from "tinycolor2";
-// import {
-//   CardWrapper,
-//   ColorCard,
-//   ShadesWrapper,
-//   TextBox,
-//   Wrapper,
-// } from "./styles";
-//
-// function ColorsComponent() {
-//   const inputColorRef = useRef(null);
-//   const [colors, setColors] = useState({
-//     inputColor: "",
-//     textColor: "",
-//     shades: {
-//       100: "",
-//       200: "",
-//       300: "",
-//       400: "",
-//       500: "",
-//       600: "",
-//     },
-//     tints: {
-//       100: "",
-//       200: "",
-//       300: "",
-//       400: "",
-//       500: "",
-//       600: "",
-//     },
-//     triad: {
-//       100: "",
-//       200: "",
-//       300: "",
-//     },
-//     tetrad: {
-//       100: "",
-//       200: "",
-//       300: "",
-//       400: "",
-//     },
-//     monochromatic: {
-//       100: "",
-//       200: "",
-//       300: "",
-//       400: "",
-//       500: "",
-//       600: "",
-//     },
-//     analogous: {
-//       100: "",
-//       200: "",
-//       300: "",
-//       400: "",
-//       500: "",
-//       600: "",
-//     },
-//     splitComp: {
-//       100: "",
-//       200: "",
-//       300: "",
-//     },
-//   });
-//
-//   const handleColorChange = () => {
-//     // NOTE: update colors from input here
-//     setColors({
-//       ...colors,
-//       inputColor: "#" + tinycolor(inputColorRef.current.value).toHex(),
-//       textColor: tinycolor(inputColorRef.current.value.toString())?.isDark()
-//         ? "#ffffff"
-//         : "#000000",
-//       // NOTE: write methods to loop through populating the other objects
-//     });
-//     inputColorRef.current.value = colors.inputColor;
-//   };
-//
-//   return (
-//     <Wrapper>
-//       <TextBox>
-//         <input placeholder={"Enter a hex value"} ref={inputColorRef} />
-//       </TextBox>
-//       <button onClick={handleColorChange}>Get Values</button>
-//       <h1>
-//         {`Original Color: `}
-//         <span
-//           style={{
-//             background: colors.inputColor,
-//             color: colors.textColor,
-//           }}
-//           onChange={() => console.log(colors.textColor)}
-//         >
-//           {colors.inputColor}
-//         </span>
-//       </h1>
-//       <h2>Shades:</h2>
-//       <ShadesWrapper>
-//         <CardWrapper>
-//           <ColorCard>{"#ffffff"}</ColorCard>
-//           <span>Shade 100</span>
-//         </CardWrapper>
-//         <CardWrapper>
-//           <ColorCard>{"#ffffff"}</ColorCard>
-//           <span>Shade 200</span>
-//         </CardWrapper>
-//         <CardWrapper>
-//           <ColorCard>{"#ffffff"}</ColorCard>
-//           <span>Shade 300</span>
-//         </CardWrapper>
-//         <CardWrapper>
-//           <ColorCard>{"#ffffff"}</ColorCard>
-//           <span>Shade 400</span>
-//         </CardWrapper>
-//         <CardWrapper>
-//           <ColorCard>{"#ffffff"}</ColorCard>
-//           <span>Shade 500</span>
-//         </CardWrapper>
-//         <CardWrapper>
-//           <ColorCard>{"#ffffff"}</ColorCard>
-//           <span>Shade 600</span>
-//         </CardWrapper>
-//         <h2>Tints:</h2>
-//         <CardWrapper></CardWrapper>
-//       </ShadesWrapper>
-//     </Wrapper>
-//   );
-// }
-//
-// export default ColorsComponent;
-
 import React, { useEffect, useRef, useState } from "react";
 import tinycolor from "tinycolor2";
 import {
@@ -137,14 +6,47 @@ import {
   ColorInput,
   Content,
   GetValuesButton,
+  Notification,
   SectionTitle,
   SectionWrapper,
   TextBox,
   Title,
-  Wrapper,
+  Wrapper
 } from "./styles";
 
 function ColorsComponent() {
+  const [notificationShow, setNotificationShow] = useState(false);
+  const [notificationText, setNotificationText] = useState("");
+  const [notificationColor, setNotificationColor] = useState("");
+  
+  const handleCopyClick = (textToCopy) => {
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        setNotificationText("Text copied to clipboard!");
+        setNotificationShow(true);
+        setNotificationColor("lightgreen");
+      })
+      .catch((error) => {
+        setNotificationText(`Failed to copy text: ${error.message}`);
+        setNotificationShow(true);
+        setNotificationColor("orange");
+      });
+  };
+  
+  useEffect(() => {
+    let timeoutId;
+    
+    if (notificationShow) {
+      timeoutId = setTimeout(() => {
+        setNotificationShow(false);
+      }, 800);
+    }
+    
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [notificationShow]);
+  
   const inputColorRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [colors, setColors] = useState({
@@ -156,7 +58,7 @@ function ColorsComponent() {
       300: "",
       400: "",
       500: "",
-      600: "",
+      600: ""
     },
     tints: {
       100: "",
@@ -164,38 +66,38 @@ function ColorsComponent() {
       300: "",
       400: "",
       500: "",
-      600: "",
+      600: ""
     },
     comp: "",
     splitComp: {
       100: "",
-      200: "",
+      200: ""
     },
     triad: {
       100: "",
-      200: "",
+      200: ""
     },
     tetrad: {
       100: "",
       200: "",
-      300: "",
+      300: ""
     },
     monochromatic: {
       100: "",
       200: "",
       300: "",
       400: "",
-      500: "",
+      500: ""
     },
     analogous: {
       100: "",
       200: "",
       300: "",
       400: "",
-      500: "",
-    },
+      500: ""
+    }
   });
-
+  
   const handleColorChange = () => {
     let newInputColor = "#" + tinycolor(inputColorRef.current.value).toHex();
     let newTextColor = tinycolor(newInputColor).isDark()
@@ -209,7 +111,7 @@ function ColorsComponent() {
     let newTetrad = {};
     let newMono = {};
     let newAnalo = {};
-
+    
     // populate shades object with darker shades of input color
     let mult = 5;
     for (let i = 1; i <= 6; i++) {
@@ -218,7 +120,7 @@ function ColorsComponent() {
         .toHexString();
       mult += 5;
     }
-
+    
     // populate tints object with lighter tints of input color
     mult = 5;
     for (let i = 1; i <= 6; i++) {
@@ -227,40 +129,40 @@ function ColorsComponent() {
         .toHexString();
       mult += 5;
     }
-
+    
     // populate splitComp object based on input color
     newComp = tinycolor(newInputColor).complement().toHexString();
-
+    
     // populate splitComp object based on input color
     for (let i = 1; i <= 2; i++) {
       const colorArray = tinycolor(newInputColor).splitcomplement();
       newSplit[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
     }
-
+    
     // populate triad object based on input color
     for (let i = 1; i <= 2; i++) {
       const colorArray = tinycolor(newInputColor).triad();
       newTriad[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
     }
-
+    
     // populate tetrad object based on input color
     for (let i = 1; i <= 3; i++) {
       const colorArray = tinycolor(newInputColor).tetrad();
       newTetrad[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
     }
-
+    
     // populate monochromatic object based on input color
     for (let i = 1; i <= 5; i++) {
       const colorArray = tinycolor(newInputColor).monochromatic();
       newMono[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
     }
-
+    
     // populate analogous object based on input color
     for (let i = 1; i <= 5; i++) {
       const colorArray = tinycolor(newInputColor).analogous();
       newAnalo[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
     }
-
+    
     setColors({
       ...colors,
       inputColor: newInputColor,
@@ -272,19 +174,20 @@ function ColorsComponent() {
       triad: newTriad,
       tetrad: newTetrad,
       monochromatic: newMono,
-      analogous: newAnalo,
+      analogous: newAnalo
     });
-
+    
     inputColorRef.current.value = newInputColor;
     setIsVisible(!isVisible);
   };
-
+  
   useEffect(() => {
     console.log({ isVisible });
   }, [isVisible]);
-
+  
   return (
     <Wrapper>
+      
       <Title>Color Scheme Generator</Title>
       <TextBox>
         <ColorInput placeholder={"Enter a hex value"} ref={inputColorRef} />
@@ -299,8 +202,9 @@ function ColorsComponent() {
             <ColorCard
               style={{
                 backgroundColor: colors.inputColor,
-                color: colors.textColor,
+                color: colors.textColor
               }}
+              onClick={() => handleCopyClick(colors.inputColor)}
             >
               {colors.inputColor}
             </ColorCard>
@@ -315,8 +219,9 @@ function ColorsComponent() {
                   backgroundColor: colors.shades[key],
                   color: tinycolor(colors.shades[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000",
+                    : "#000000"
                 }}
+                onClick={() => handleCopyClick(colors.shades[key])}
               >
                 {colors.shades[key]}
               </ColorCard>
@@ -333,8 +238,9 @@ function ColorsComponent() {
                   backgroundColor: colors.tints[key],
                   color: tinycolor(colors.tints[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000",
+                    : "#000000"
                 }}
+                onClick={() => handleCopyClick(colors.tints[key])}
               >
                 {colors.tints[key]}
               </ColorCard>
@@ -348,8 +254,9 @@ function ColorsComponent() {
             <ColorCard
               style={{
                 backgroundColor: colors.comp,
-                color: tinycolor(colors.comp)?.isDark() ? "#ffffff" : "#000000",
+                color: tinycolor(colors.comp)?.isDark() ? "#ffffff" : "#000000"
               }}
+              onClick={() => handleCopyClick(colors.comp)}
             >
               {colors.comp}
             </ColorCard>
@@ -364,8 +271,9 @@ function ColorsComponent() {
                   backgroundColor: colors.splitComp[key],
                   color: tinycolor(colors.splitComp[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000",
+                    : "#000000"
                 }}
+                onClick={() => handleCopyClick(colors.splitComp[key])}
               >
                 {colors.splitComp[key]}
               </ColorCard>
@@ -382,8 +290,9 @@ function ColorsComponent() {
                   backgroundColor: colors.triad[key],
                   color: tinycolor(colors.triad[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000",
+                    : "#000000"
                 }}
+                onClick={() => handleCopyClick(colors.triad[key])}
               >
                 {colors.triad[key]}
               </ColorCard>
@@ -400,8 +309,9 @@ function ColorsComponent() {
                   backgroundColor: colors.tetrad[key],
                   color: tinycolor(colors.tetrad[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000",
+                    : "#000000"
                 }}
+                onClick={() => handleCopyClick(colors.tetrad[key])}
               >
                 {colors.tetrad[key]}
               </ColorCard>
@@ -418,8 +328,9 @@ function ColorsComponent() {
                   backgroundColor: colors.monochromatic[key],
                   color: tinycolor(colors.monochromatic[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000",
+                    : "#000000"
                 }}
+                onClick={() => handleCopyClick(colors.monochromatic[key])}
               >
                 {colors.monochromatic[key]}
               </ColorCard>
@@ -436,8 +347,9 @@ function ColorsComponent() {
                   backgroundColor: colors.analogous[key],
                   color: tinycolor(colors.analogous[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000",
+                    : "#000000"
                 }}
+                onClick={() => handleCopyClick(colors.analogous[key])}
               >
                 {colors.analogous[key]}
               </ColorCard>
@@ -446,6 +358,9 @@ function ColorsComponent() {
           ))}
         </SectionWrapper>
       </Content>
+      <Notification show={notificationShow} notifColor={notificationColor}>
+        {notificationText}
+      </Notification>
     </Wrapper>
   );
 }
