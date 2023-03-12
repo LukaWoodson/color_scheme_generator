@@ -41,6 +41,7 @@ export const Content = styled.div`
   margin: 1rem;
   box-shadow: 0px 0px 6px 0px rgb(0 0 0);
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  pointer-events: ${({ isVisible }) => (isVisible ? "default" : "none")};
 `;
 
 export const SectionTitle = styled.h2`
