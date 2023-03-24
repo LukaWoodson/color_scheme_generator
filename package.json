@@ -2,7 +2,7 @@
   "name": "color_scheme_generator",
   "version": "1.0.0",
   "description": "A webpage using tinycolor.js that let's the users insert a CSS color value and get a range of colors to use for a theme provider.",
-  "homepage": "https://LukaWoodson.github.io/color_scheme_generator",
+  "homepage": "https://lukawoodson.github.io/color_scheme_generator",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
