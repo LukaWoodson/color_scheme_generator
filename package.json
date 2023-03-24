@@ -25,7 +25,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && git add . && git commit -m 'update build' && git push origin main && git subtree push --prefix build origin gh-pages"
 
   },
   "browserslist": [
