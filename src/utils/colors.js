@@ -1,7 +1,7 @@
 import { useState } from "react";
 import tinycolor from "tinycolor2";
 
-export const useColorGenerator = (inputColor) => {
+export const useColorGenerator = () => {
   const initalColors = {
     inputColor: "",
     textColor: "",
