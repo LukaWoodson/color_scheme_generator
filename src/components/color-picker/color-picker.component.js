@@ -62,6 +62,7 @@ function ColorsComponent() {
   const handleColorChange = () => {
     handleColors(inputColorRef.current.value);
     inputColorRef.current.value = "";
+    inputColorRef.current.blur();
     if (!isVisible) setIsVisible(true);
   };
 
