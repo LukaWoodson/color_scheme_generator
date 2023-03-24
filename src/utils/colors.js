@@ -66,6 +66,9 @@ export const useColorGenerator = () => {
     let newMono = { ...colors.monochromatic };
     let newAnalogous = { ...colors.analogous };
 
+    // populate splitComp object based on input color
+    let newComp = tinycolor(newInputColor).complement().toHexString();
+
     let mult = 5;
     for (let i = 1; i <= 6; i++) {
       newShades[parseInt(`${i}00`)] = tinycolor(newInputColor)
@@ -108,6 +111,7 @@ export const useColorGenerator = () => {
       textColor: newTextColor,
       shades: newShades,
       tints: newTints,
+      comp: newComp,
       splitComp: newSplitComp,
       triad: newTriad,
       tetrad: newTetrad,
