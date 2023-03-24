@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/color_scheme_generator/static/css/main.bea66373.css",
+    "main.js": "/color_scheme_generator/static/js/main.b38b4610.js",
+    "index.html": "/color_scheme_generator/index.html",
+    "main.bea66373.css.map": "/color_scheme_generator/static/css/main.bea66373.css.map",
+    "main.b38b4610.js.map": "/color_scheme_generator/static/js/main.b38b4610.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bea66373.css",
+    "static/js/main.b38b4610.js"
+  ]
+}
