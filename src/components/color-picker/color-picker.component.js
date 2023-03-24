@@ -11,16 +11,19 @@ import {
   SectionWrapper,
   TextBox,
   Title,
-  Wrapper
-} from "./styles";
+  Wrapper,
+} from "./color-picker.styles";
+import { useColorGenerator } from "../../utils/colors";
 
 function ColorsComponent() {
   const [notificationShow, setNotificationShow] = useState(false);
   const [notificationText, setNotificationText] = useState("");
   const [notificationColor, setNotificationColor] = useState("");
-  
+  const { colors, handleColors } = useColorGenerator();
+
   const handleCopyClick = (textToCopy) => {
-    navigator.clipboard.writeText(textToCopy)
+    navigator.clipboard
+      .writeText(textToCopy)
       .then(() => {
         setNotificationText("Text copied to clipboard!");
         setNotificationShow(true);
@@ -32,165 +35,45 @@ function ColorsComponent() {
         setNotificationColor("orange");
       });
   };
-  
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleColorChange();
+    }
+  };
+
   useEffect(() => {
     let timeoutId;
-    
+
     if (notificationShow) {
       timeoutId = setTimeout(() => {
         setNotificationShow(false);
       }, 800);
     }
-    
+
     return () => {
       clearTimeout(timeoutId);
     };
   }, [notificationShow]);
-  
+
   const inputColorRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [colors, setColors] = useState({
-    inputColor: "",
-    textColor: "",
-    shades: {
-      100: "",
-      200: "",
-      300: "",
-      400: "",
-      500: "",
-      600: ""
-    },
-    tints: {
-      100: "",
-      200: "",
-      300: "",
-      400: "",
-      500: "",
-      600: ""
-    },
-    comp: "",
-    splitComp: {
-      100: "",
-      200: ""
-    },
-    triad: {
-      100: "",
-      200: ""
-    },
-    tetrad: {
-      100: "",
-      200: "",
-      300: ""
-    },
-    monochromatic: {
-      100: "",
-      200: "",
-      300: "",
-      400: "",
-      500: ""
-    },
-    analogous: {
-      100: "",
-      200: "",
-      300: "",
-      400: "",
-      500: ""
-    }
-  });
-  
+
   const handleColorChange = () => {
-    let newInputColor = "#" + tinycolor(inputColorRef.current.value).toHex();
-    let newTextColor = tinycolor(newInputColor).isDark()
-      ? "#ffffff"
-      : "#000000";
-    let newShades = {};
-    let newTints = {};
-    let newComp = {};
-    let newSplit = {};
-    let newTriad = {};
-    let newTetrad = {};
-    let newMono = {};
-    let newAnalo = {};
-    
-    // populate shades object with darker shades of input color
-    let mult = 5;
-    for (let i = 1; i <= 6; i++) {
-      newShades[parseInt(`${i}00`)] = tinycolor(newInputColor)
-        .darken(mult)
-        .toHexString();
-      mult += 5;
-    }
-    
-    // populate tints object with lighter tints of input color
-    mult = 5;
-    for (let i = 1; i <= 6; i++) {
-      newTints[parseInt(`${i}00`)] = tinycolor(newInputColor)
-        .lighten(mult)
-        .toHexString();
-      mult += 5;
-    }
-    
-    // populate splitComp object based on input color
-    newComp = tinycolor(newInputColor).complement().toHexString();
-    
-    // populate splitComp object based on input color
-    for (let i = 1; i <= 2; i++) {
-      const colorArray = tinycolor(newInputColor).splitcomplement();
-      newSplit[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
-    }
-    
-    // populate triad object based on input color
-    for (let i = 1; i <= 2; i++) {
-      const colorArray = tinycolor(newInputColor).triad();
-      newTriad[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
-    }
-    
-    // populate tetrad object based on input color
-    for (let i = 1; i <= 3; i++) {
-      const colorArray = tinycolor(newInputColor).tetrad();
-      newTetrad[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
-    }
-    
-    // populate monochromatic object based on input color
-    for (let i = 1; i <= 5; i++) {
-      const colorArray = tinycolor(newInputColor).monochromatic();
-      newMono[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
-    }
-    
-    // populate analogous object based on input color
-    for (let i = 1; i <= 5; i++) {
-      const colorArray = tinycolor(newInputColor).analogous();
-      newAnalo[parseInt(`${i}00`)] = tinycolor(colorArray[i]).toHexString();
-    }
-    
-    setColors({
-      ...colors,
-      inputColor: newInputColor,
-      textColor: newTextColor,
-      shades: newShades,
-      tints: newTints,
-      comp: newComp,
-      splitComp: newSplit,
-      triad: newTriad,
-      tetrad: newTetrad,
-      monochromatic: newMono,
-      analogous: newAnalo
-    });
-    
-    inputColorRef.current.value = newInputColor;
-    setIsVisible(!isVisible);
+    handleColors(inputColorRef.current.value);
+    inputColorRef.current.value = "";
+    if (!isVisible) setIsVisible(true);
   };
-  
-  useEffect(() => {
-    console.log({ isVisible });
-  }, [isVisible]);
-  
+
   return (
     <Wrapper>
-      
       <Title>Color Scheme Generator</Title>
       <TextBox>
-        <ColorInput placeholder={"Enter a hex value"} ref={inputColorRef} />
+        <ColorInput
+          placeholder={"Enter a hex value"}
+          ref={inputColorRef}
+          onKeyPress={handleKeyPress}
+        />
         <GetValuesButton onClick={handleColorChange}>
           Get Values
         </GetValuesButton>
@@ -202,7 +85,7 @@ function ColorsComponent() {
             <ColorCard
               style={{
                 backgroundColor: colors.inputColor,
-                color: colors.textColor
+                color: colors.textColor,
               }}
               onClick={() => handleCopyClick(colors.inputColor)}
             >
@@ -219,7 +102,7 @@ function ColorsComponent() {
                   backgroundColor: colors.shades[key],
                   color: tinycolor(colors.shades[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000"
+                    : "#000000",
                 }}
                 onClick={() => handleCopyClick(colors.shades[key])}
               >
@@ -238,7 +121,7 @@ function ColorsComponent() {
                   backgroundColor: colors.tints[key],
                   color: tinycolor(colors.tints[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000"
+                    : "#000000",
                 }}
                 onClick={() => handleCopyClick(colors.tints[key])}
               >
@@ -254,7 +137,7 @@ function ColorsComponent() {
             <ColorCard
               style={{
                 backgroundColor: colors.comp,
-                color: tinycolor(colors.comp)?.isDark() ? "#ffffff" : "#000000"
+                color: tinycolor(colors.comp)?.isDark() ? "#ffffff" : "#000000",
               }}
               onClick={() => handleCopyClick(colors.comp)}
             >
@@ -271,7 +154,7 @@ function ColorsComponent() {
                   backgroundColor: colors.splitComp[key],
                   color: tinycolor(colors.splitComp[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000"
+                    : "#000000",
                 }}
                 onClick={() => handleCopyClick(colors.splitComp[key])}
               >
@@ -290,7 +173,7 @@ function ColorsComponent() {
                   backgroundColor: colors.triad[key],
                   color: tinycolor(colors.triad[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000"
+                    : "#000000",
                 }}
                 onClick={() => handleCopyClick(colors.triad[key])}
               >
@@ -309,7 +192,7 @@ function ColorsComponent() {
                   backgroundColor: colors.tetrad[key],
                   color: tinycolor(colors.tetrad[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000"
+                    : "#000000",
                 }}
                 onClick={() => handleCopyClick(colors.tetrad[key])}
               >
@@ -328,7 +211,7 @@ function ColorsComponent() {
                   backgroundColor: colors.monochromatic[key],
                   color: tinycolor(colors.monochromatic[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000"
+                    : "#000000",
                 }}
                 onClick={() => handleCopyClick(colors.monochromatic[key])}
               >
@@ -347,7 +230,7 @@ function ColorsComponent() {
                   backgroundColor: colors.analogous[key],
                   color: tinycolor(colors.analogous[key])?.isDark()
                     ? "#ffffff"
-                    : "#000000"
+                    : "#000000",
                 }}
                 onClick={() => handleCopyClick(colors.analogous[key])}
               >
