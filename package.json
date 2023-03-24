@@ -1,32 +1,37 @@
 {
-  "name": "tinycolor_dynamic_color_generator",
+  "name": "color_scheme_generator",
   "version": "1.0.0",
   "description": "A webpage using tinycolor.js that let's the users insert a CSS color value and get a range of colors to use for a theme provider.",
+  "homepage": "https://LukaWoodson.github.io/color_scheme_generator",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-	"loader-utils": "3.2.1",
-	"prettier": "^2.8.4",
-	"react": "18.2.0",
-	"react-dom": "18.2.0",
-	"react-scripts": "5.0.1",
-	"styled-components": "^5.3.8",
-	"tinycolor2": "1.6.0"
+    "loader-utils": "3.2.1",
+    "prettier": "^2.8.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-scripts": "5.0.1",
+    "styled-components": "^5.3.8",
+    "tinycolor2": "1.6.0"
   },
   "devDependencies": {
-	"@babel/runtime": "7.13.8",
-	"typescript": "4.1.3"
+    "@babel/runtime": "7.13.8",
+    "gh-pages": "^5.0.0",
+    "typescript": "4.1.3"
   },
   "scripts": {
-	"start": "react-scripts start",
-	"build": "react-scripts build",
-	"test": "react-scripts test --env=jsdom",
-	"eject": "react-scripts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+
   },
   "browserslist": [
-	">0.2%",
-	"not dead",
-	"not ie <= 11",
-	"not op_mini all"
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ]
 }
