@@ -1,10 +1,11 @@
-import ColorsComponent from "./components/color-picker/color-picker.component";
 import "./styles.css";
+import TitleDesc from "./components/title-desc/title-desc.component";
 
 export default function App() {
   return (
     <div className="App">
-      <ColorsComponent />
+      {/*<ColorsComponent />*/}
+      <TitleDesc />
     </div>
   );
 }
